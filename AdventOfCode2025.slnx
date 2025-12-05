@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="AdventOfCode2025/AdventOfCode2025.csproj" />
+  <Project Path="Day1/Day1.csproj" />
+  <Project Path="Shared/Shared.csproj" />
+</Solution>
