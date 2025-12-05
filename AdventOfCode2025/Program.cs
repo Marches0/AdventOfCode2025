@@ -1,2 +1,3 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+﻿using Day1;
+
+Console.WriteLine(new Day1Solver().Solve(@"C:\Users\Marches\source\repos\Marches0\AdventOfCode2025\Day1\sample.txt"));

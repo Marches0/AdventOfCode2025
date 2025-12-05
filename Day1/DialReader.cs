@@ -1,11 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿namespace Day1;
 
-namespace Day1
+internal static class DialReader
 {
-    internal static class DialReader
+    public static List<DialMovement> GetMovements(string file)
     {
-        public static 
+        return File.ReadAllLines(file)
+            .Select(l => new DialMovement()
+            {
+                Direction = l[0] == 'L'
+                    ? DialDirection.Left
+                    : DialDirection.Right,
+                Clicks = int.Parse(l[1..^0])
+            })
+            .ToList();
     }
 }

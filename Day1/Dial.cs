@@ -28,15 +28,26 @@ internal class Dial
     public void Move(DialMovement movement)
     {
         int clicksChange = movement.Direction == DialDirection.Left
-            ?  movement.Clicks
-            : -movement.Clicks;
+            ? -movement.Clicks
+            : +movement.Clicks;
 
         CurrentNumber += clicksChange;
 
-
-        if (CurrentNumber > 99)
+        if (CurrentNumber >= 100)
         {
+            // Can be multiple times over 99, e.g. at 2000
+            // Take off as many 99s as possible to get us back down.
+            int over = CurrentNumber / 100;
+            CurrentNumber -= over * 100;
+        }
 
+        if (CurrentNumber < 0)
+        {
+            // Need minimum 1 since we need to go back above 0.
+            int over = (CurrentNumber / 100) + 1;
+
+            // Also needs an extra 1 added!
+            CurrentNumber += over * 100;
         }
     }
 }
