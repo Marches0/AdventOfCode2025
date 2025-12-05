@@ -1,3 +1,3 @@
 ﻿using Day1;
 
-Console.WriteLine(new Day1Solver().Solve(@"C:\Users\Marches\source\repos\Marches0\AdventOfCode2025\Day1\sample.txt"));
+Console.WriteLine(new Day1Solver().Solve(@"C:\Users\Marches\source\repos\Marches0\AdventOfCode2025\Day1\input.txt"));

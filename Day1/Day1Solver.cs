@@ -10,7 +10,7 @@ namespace Day1
 
             int zeroes = 0;
 
-            foreach (var movement in movements)
+            foreach (DialMovement movement in movements)
             { 
                 dial.Move(movement);
                 if (dial.CurrentNumber == 0)
