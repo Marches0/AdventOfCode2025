@@ -363,4 +363,4 @@ MigrationBackup/
 FodyWeavers.xsd
 
 # Advent of code inouts
-#*/input.txt
+*/input.txt
