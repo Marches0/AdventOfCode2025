@@ -1,3 +1,3 @@
-﻿using Day1;
+﻿using Day2;
 
-Console.WriteLine(new Day1Solver().Solve(@"C:\Users\Marches\source\repos\Marches0\AdventOfCode2025\Day1\input.txt"));
+new Day2Solver().Solve(@"C:\Users\Marches\source\repos\Marches0\AdventOfCode2025\Day2\input.txt");
