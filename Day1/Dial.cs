@@ -20,6 +20,8 @@ internal class DialMovement
 internal class Dial
 {
     public int CurrentNumber { get; private set; }
+    public int TouchedZeroCount { get; private set; }
+    public int EndedZeroCount { get; private set; }
 
     public Dial(int startingNumber)
     {
@@ -28,47 +30,65 @@ internal class Dial
 
     public void Move(DialMovement movement)
     {
+        // Movements > |100| have the same result as moving Movement mod 100.
+        // So do that movement, and process the result, then add
+        // to the changes as if we had done those extra 100s.
+        int extraRotations = movement.Clicks / 100;
+        int realClicks = movement.Clicks % 100;
+
         int clicksChange = movement.Direction == DialDirection.Left
-            ? -movement.Clicks
-            : +movement.Clicks;
+            ? -realClicks
+            : +realClicks;
+
+        // If we were already at 0, then we have already counted
+        // that touch, so don't recount it.
+        // However! If we start *and* end at 0, then do count it
+        // because that means we made a full cycle.
+        bool zeroBeforeMovement = CurrentNumber == 0;
+        int initialNumber = CurrentNumber;
 
         CurrentNumber += clicksChange;
 
-        if (CurrentNumber >= 100)
+        bool looped = false;
+        
+        // There's probably a formula for this, since having to loop
+        // isn't that efficient. But I am lazy.
+        while (CurrentNumber < 0 || CurrentNumber > 99)
         {
-            // Can be multiple times over 99, e.g. at 2000
-            // Take off as many 99s as possible to get us back down.
-            int over = CurrentNumber / 100;
-            CurrentNumber -= over * 100;
+            looped = true;
+
+            if (CurrentNumber > 99)
+            {
+                CurrentNumber -= 100; 
+            }
+
+            if (CurrentNumber < 0)
+            {
+                CurrentNumber += 100;
+            }
+
+            if (!zeroBeforeMovement)
+            {
+                ++TouchedZeroCount;
+            }
+
+            // But once we turn away, we want to count it again.
+            zeroBeforeMovement = false;
         }
 
-        if (CurrentNumber < 0)
+        TouchedZeroCount += extraRotations;
+
+        if (CurrentNumber == 0)
         {
-            // Need minimum 1 since we need to go back above 0.
-            int over = (-CurrentNumber / 100) + 1;
+            ++EndedZeroCount;
 
-            // Also needs an extra 1 added!
-            CurrentNumber += over * 100;
-        }
-
-        // These numbers can feed into each other, e.g. adding
-        // from < 0 can hit 100, so check each one a second time to make sure
-        // it's correct.
-        if (CurrentNumber >= 100)
-        {
-            // Can be multiple times over 99, e.g. at 2000
-            // Take off as many 99s as possible to get us back down.
-            int over = CurrentNumber / 100;
-            CurrentNumber -= over * 100;
-        }
-
-        if (CurrentNumber < 0)
-        {
-            // Need minimum 1 since we need to go back above 0.
-            int over = (-CurrentNumber / 100) + 1;
-
-            // Also needs an extra 1 added!
-            CurrentNumber += over * 100;
+            // We count the touch of zero when we loop, but we still care
+            // if we end on it. Only add if we didn't loop though, since that is
+            // already accounted for.
+            if (!looped)
+            {
+                ++TouchedZeroCount;
+            }
         }
     }
 }

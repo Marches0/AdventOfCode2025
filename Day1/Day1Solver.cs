@@ -8,18 +8,15 @@ namespace Day1
             List<DialMovement> movements = DialReader.GetMovements(file);
             Dial dial = new(50);
 
-            int zeroes = 0;
-
+            Console.WriteLine($"Start {dial.CurrentNumber}");
             foreach (DialMovement movement in movements)
-            { 
+            {
+                int initialPosition = dial.CurrentNumber;
                 dial.Move(movement);
-                if (dial.CurrentNumber == 0)
-                {
-                    ++zeroes;
-                }
+                Console.WriteLine($"{initialPosition,-2} -> {dial.CurrentNumber,2} {movement,-9} - {dial.TouchedZeroCount}");
             }
 
-            return zeroes;
+            return dial.TouchedZeroCount;
         }
     }
 }
