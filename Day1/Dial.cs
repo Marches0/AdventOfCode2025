@@ -34,6 +34,8 @@ internal class Dial
         // So do that movement, and process the result, then add
         // to the changes as if we had done those extra 100s.
         int extraRotations = movement.Clicks / 100;
+        TouchedZeroCount += extraRotations;
+
         int realClicks = movement.Clicks % 100;
 
         int clicksChange = movement.Direction == DialDirection.Left
@@ -45,8 +47,6 @@ internal class Dial
         // However! If we start *and* end at 0, then do count it
         // because that means we made a full cycle.
         bool zeroBeforeMovement = CurrentNumber == 0;
-        int initialNumber = CurrentNumber;
-
         CurrentNumber += clicksChange;
 
         bool looped = false;
@@ -75,8 +75,6 @@ internal class Dial
             // But once we turn away, we want to count it again.
             zeroBeforeMovement = false;
         }
-
-        TouchedZeroCount += extraRotations;
 
         if (CurrentNumber == 0)
         {
