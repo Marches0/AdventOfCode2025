@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using System.Text;
-
-namespace Day2;
+﻿namespace Day2;
 
 internal class IdRange(long Start, long End)
 {
@@ -31,7 +26,6 @@ internal class IdRange(long Start, long End)
 
                 return parts.All(p => p == parts[0]);
             })
-            .ToList()
             .Any(v => v == true);
     }
 
