@@ -10,28 +10,44 @@ internal class IdRange(long Start, long End)
     public List<long> GetInvalidIds()
     {
         return GetIds()
-            .Where(i => !IsValid(i))
+            .Where(IsInvalid)
             .ToList();
     }
 
-    private bool IsValid(long id)
+    private bool IsInvalid(long id)
     {
-        // Invalid if:
-        //  the ID is the same pattern twice.
-        // e.g. 123123 invalid
+        string idStr = id.ToString();
 
+        // Invalid if the ID has the same pattern multiple times
+        // e.g. 123123 (123, 123)
+        //      565656 (56, 56, 56)
+        return GetSequenceSizes(id)
+            .Select(size =>
+            {
+                List<int> parts = idStr
+                    .Chunk(size)
+                    .Select(cs => int.Parse(new string(cs.ToArray())))
+                    .ToList();
+
+                return parts.All(p => p == parts[0]);
+            })
+            .ToList()
+            .Any(v => v == true);
+    }
+
+    private IEnumerable<int> GetSequenceSizes(long id)
+    {
+        // Just the divisors of the length of the ID.
         int digitCount = (int)Math.Floor(Math.Log10(id)) + 1;
-        if (digitCount % 2 == 1)
+
+        // I'm sure there is a better way to do this.
+        for (int i = 1; i < 1 + digitCount / 2; i++)
         {
-            // If it has an odd number of digits, it can't be repeated - so it is valid.
-            return true;
+            if (digitCount % i == 0)
+            {
+                yield return i;
+            }
         }
-
-        string numString = id.ToString();
-        int p1 = int.Parse(numString[..((int)digitCount / 2)]);
-        int p2 = int.Parse(numString[((int)digitCount / 2)..]);
-
-        return p1 != p2;
     }
 
     private IEnumerable<long> GetIds()
