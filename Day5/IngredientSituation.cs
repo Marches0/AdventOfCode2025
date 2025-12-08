@@ -12,12 +12,14 @@ internal class IngredientSituation
 
 internal class IngredientRange(long start, long end)
 {
-    private readonly long _start = start;
-    private readonly long _end = end;
+    public long Start { get; } = start;
+    public long End { get; } = end;
 
     public bool IsFresh(long ingredientId)
     {
-        return ingredientId >= _start
-            && ingredientId <= _end;
+        return ingredientId >= Start
+            && ingredientId <= End;
     }
+
+    public long Size => (End - Start) + 1; // Range is inclusive
 }

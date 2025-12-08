@@ -1,6 +1,4 @@
-﻿
-
-namespace Day5;
+﻿namespace Day5;
 
 public class Day5Solver
 {
@@ -8,10 +6,9 @@ public class Day5Solver
     {
         IngredientSituation situation = IngredientReader.Read(fileName);
 
-        List<long> freshCount = situation.IngredientIds
-            .Where(i => situation.FreshRanges.Any(r => r.IsFresh(i)))
-            .ToList();
+        List<IngredientRange> merged = RangeMerger.MergeRanges(situation.FreshRanges);
+        var totalFresh = merged.Sum(m => m.Size);
 
-        Console.WriteLine(freshCount.Count);
+        Console.WriteLine(totalFresh);
     }
 }
