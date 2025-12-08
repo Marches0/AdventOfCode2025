@@ -15,7 +15,6 @@ internal class JoltageSolver
             .Select((j, i) => new { Joltage = j, Position = i })
             .ToList();
 
-        // Get the highest digit from all, apart from the last which doesn't matter.
         List<int> digits = new List<int>(digitCount);
         int bankPosition = 0;
 
@@ -38,7 +37,6 @@ internal class JoltageSolver
             digits.Add(bestDigit.Joltage);
         }
 
-        
         // Multiply each digit by 10^pos so you get their proper position in the number.
         // Reversing makes the logic easier since we don't have to subtract from the total.
         return digits
