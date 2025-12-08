@@ -30,6 +30,11 @@ internal class PrintGrid(List<List<PrintGridContent>> gridContent)
         return row[x];
     }
 
+    public void RemovePaper(int x, int y)
+    {
+        _gridContent[y][x] = PrintGridContent.Empty;
+    }
+
     // Assumes rectangle
     public (int width, int height) GetDimensions()
     {

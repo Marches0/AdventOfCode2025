@@ -7,19 +7,29 @@ public class Day4Solver
         var grid = PrintGridReader.GetGrid(fileName);
 
         (int width, int height) = grid.GetDimensions();
-        int accessiblePaperCount = 0;
 
-        for (int x = 0; x < width; x++)
+        int accessiblePaperCount = 0;
+        int initialFoundPaper = 0;
+
+        do
         {
-            for (int y = 0; y < height; y++)
+            // Keep testing and removing until we don't remove any paper in that interation,
+            // at which point we are done.
+            initialFoundPaper = accessiblePaperCount;
+
+            for (int x = 0; x < width; x++)
             {
-                PrintGridContent content = grid.GetGridContent(x, y);
-                if (content == PrintGridContent.Paper && PrintGridAccessibilityCalculator.IsAccessible(x, y, grid))
+                for (int y = 0; y < height; y++)
                 {
-                    ++accessiblePaperCount;
+                    PrintGridContent content = grid.GetGridContent(x, y);
+                    if (content == PrintGridContent.Paper && PrintGridAccessibilityCalculator.IsAccessible(x, y, grid))
+                    {
+                        ++accessiblePaperCount;
+                        grid.RemovePaper(x, y);
+                    }
                 }
             }
-        }
+        } while (initialFoundPaper != accessiblePaperCount);
 
         Console.WriteLine(accessiblePaperCount);
     }
