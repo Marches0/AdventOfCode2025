@@ -6,5 +6,6 @@
   <Project Path="AdventOfCode2025/AdventOfCode2025.csproj" />
   <Project Path="Day1/Day1.csproj" />
   <Project Path="Day2/Day2.csproj" Id="a4d6ecde-d0a4-40cc-bf96-1adb3079dcd4" />
+  <Project Path="Day3/Day3.csproj" Id="c04decd1-85d9-44e1-8920-8c5869f99ded" />
   <Project Path="Shared/Shared.csproj" />
 </Solution>
